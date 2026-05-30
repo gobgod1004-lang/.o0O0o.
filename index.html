@@ -26,7 +26,7 @@
         body.dark-mode {
             --bg-outer: #090d16;
             --bg-card: #111827;
-            --bg-chamber: #030712;
+            --bg-chamber: #02040a;
             --border-color: #1f2937;
             --text-main: #f9fafb;
             --text-desc: #9ca3af;
@@ -62,24 +62,20 @@
     <header class="w-full max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3 z-10">
         <div class="flex items-center gap-2.5">
             <div class="w-9 h-9 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20">
-                <i class="fa-solid fa-compass text-lg text-emerald-400 animate-spin-slow"></i>
+                <i class="fa-solid fa-dna text-lg text-emerald-400 animate-pulse"></i>
             </div>
             <div>
                 <h1 class="text-base md:text-lg font-bold tracking-tight flex items-center gap-2">
-                    <span class="text-emerald-500">무한 파지 대증식 시뮬레이터</span>
-                    <span class="text-[10px] font-normal opacity-75">(Swarm Evolution)</span>
+                    <span class="text-emerald-500">무한 합체 파지 시뮬레이터</span>
+                    <span class="text-[10px] font-normal opacity-75">(Swarm Fusion 10-Stages)</span>
                 </h1>
                 <p class="text-[10px] text-[var(--text-desc)]">
-                    마켓오브라우니의 거대 백혈구 회피 실험실 <span class="text-emerald-500 font-semibold">(Infinite Cosmos v3)</span>
+                    중앙 제단 100마리 합체 진화 시스템 <span class="text-emerald-500 font-semibold">(Infinite Cosmos v5)</span>
                 </p>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
-            <!-- 임시 세균 스폰 및 전체 리셋 버튼 (모달/헤더 공간에 안정적인 배치 보장) -->
-            <button id="btn-spawn-bacteria" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition">
-                <i class="fa-solid fa-biohazard mr-1"></i> 세균 추가
-            </button>
             <button id="btn-reset" class="bg-rose-500 hover:bg-rose-600 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition">
                 <i class="fa-solid fa-arrow-rotate-left mr-1"></i> 전체 리셋
             </button>
@@ -87,8 +83,8 @@
                 <i id="theme-icon" class="fa-solid fa-moon"></i>
                 <span id="theme-text">라이트 모드</span>
             </button>
-            <span class="hidden md:inline-block bg-indigo-600 text-white text-[10px] px-2.5 py-1.5 rounded-full font-bold shadow-sm">
-                <i class="fa-solid fa-microscope mr-1"></i> 1마리로 시작해 무한증식!
+            <span class="bg-indigo-600 text-white text-[10px] px-2.5 py-1.5 rounded-full font-bold shadow-sm">
+                <i class="fa-solid fa-dharmachakra animate-spin-slow mr-1"></i> 중앙 구역에 100마리를 모으세요!
             </span>
         </div>
     </header>
@@ -120,10 +116,14 @@
                 
                 <div class="w-full mt-4 space-y-1">
                     <div class="flex justify-between items-center text-[10px]">
-                        <span>바람 감쇠력</span>
+                        <span>바람 기본 세기</span>
                         <span id="wind-power-display" class="font-bold text-emerald-500">2.2x</span>
                     </div>
                     <input type="range" id="input-wind-power" min="0.5" max="5.0" step="0.1" value="2.2" class="w-full accent-emerald-500 cursor-pointer h-1.5 bg-[var(--bg-outer)] rounded-lg appearance-none">
+                    <div class="flex justify-between text-[8px] text-[var(--text-desc)] mt-1 font-mono">
+                        <span>[J] 감속</span>
+                        <span>[K] 가속</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,37 +190,36 @@
                 <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-[10px] mt-4 flex items-start gap-2">
                     <span class="text-red-500 text-sm animate-bounce"><i class="fa-solid fa-triangle-exclamation"></i></span>
                     <div>
-                        <h5 class="font-bold text-red-400">천적 경보: 백혈구 출현</h5>
+                        <h5 class="font-bold text-red-400">천적 무한 진화 경보</h5>
                         <p class="text-[9px] text-[var(--text-desc)] leading-relaxed mt-0.5">
-                            하얗고 둥글며 촉수가 달린 거대 백혈구는 파지들을 빨아들여 파괴합니다! 거리를 유지하며 바람으로 도망치세요!
+                            백혈구가 파지를 삼킬수록 무한 진화합니다! 머리 위에 표시되는 레벨이 오를수록 추적 거리가 길어지며 크기도 압도적으로 커집니다.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 하단 오버레이: 미생물 실시간 모니터링 데시보드 HUD -->
+        <!-- 하단 오버레이: 미생물 실시간 모니터링 데시보드 HUD (진화 가시성 극대화) -->
         <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-xl px-4">
-            <div class="bg-[var(--bg-card)]/90 hud-panel border border-[var(--border-color)] px-5 py-3 rounded-2xl shadow-2xl flex justify-between items-center text-center text-xs">
+            <div class="bg-[var(--bg-card)]/90 hud-panel border border-[var(--border-color)] px-4 py-3 rounded-2xl shadow-2xl flex justify-between items-center text-center text-xs gap-2">
                 <div>
                     <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">DNA 에너지</p>
-                    <p class="text-lg font-black text-emerald-500" id="dna-score-display">0</p>
+                    <p class="text-base font-black text-emerald-500" id="dna-score-display">0</p>
                 </div>
                 <div class="h-6 w-px bg-[var(--border-color)]"></div>
                 <div>
-                    <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">살아있는 파지 수</p>
-                    <p class="text-lg font-black text-emerald-400" id="phage-count-display">1</p>
+                    <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">총 파지 수</p>
+                    <p class="text-base font-black text-emerald-400" id="phage-count-display">1</p>
                 </div>
                 <div class="h-6 w-px bg-[var(--border-color)]"></div>
                 <div>
-                    <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">감염 진행도</p>
-                    <p class="text-lg font-black text-indigo-500" id="infected-count-display">0 / 0</p>
+                    <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">제단 영역 파지 수</p>
+                    <p class="text-base font-black text-amber-500" id="altar-phage-count-display">0 / 100</p>
                 </div>
                 <div class="h-6 w-px bg-[var(--border-color)]"></div>
                 <div>
-                    <button id="btn-emergency-spawn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-extrabold px-2.5 py-1.5 rounded-lg transition">
-                        <i class="fa-solid fa-plus mr-1"></i> 파지 구원
-                    </button>
+                    <p class="text-[9px] text-[var(--text-desc)] font-bold uppercase tracking-wider">최고 진화 티어</p>
+                    <p class="text-xs font-black text-indigo-400 bg-indigo-500/10 px-2 py-1 rounded-md" id="phage-tier-display">티어 1: 나노 파지</p>
                 </div>
             </div>
         </div>
@@ -242,13 +241,13 @@
     </div>
 
     <script>
-        // --- 1. 무한 맵 및 카메라 상수 선언 ---
-        const WORLD_SIZE = 3000; // 가상 지리지도 월드 경계 크기 (3000px × 3000px)
+        // --- 1. 무한 맵 및 카메라 상수 선언 (더 넓어진 5000px 월드) ---
+        const WORLD_SIZE = 5000; 
         const canvas = document.getElementById('stageCanvas');
         const ctx = canvas.getContext('2d');
         
         let themeMode = 'dark'; // 기본 다크 모드
-        let dnaPoints = 0;      // 파지 멸균을 촉진하는 주 점수
+        let dnaPoints = 0;      
 
         // 카메라 뷰 컨트롤 (지렁이 게임 방식)
         let camera = {
@@ -279,9 +278,44 @@
         // 생물체 리스트
         let bacteriaList = [];
         let phageSwarm = [];
-        let enemies = [];          // 천적 백혈구(Macrophage) 리스트
+        let enemies = [];          
         let particles = [];
         let windVisualLines = []; 
+
+        // 게임 진행 상태 및 슈퍼파지 진화 상태 변수
+        let isGameOver = false;
+        let gameOverTimer = 0; 
+        let evolutionAlertTimer = 0; // 진화 알림 드로잉용 타이머
+        let alertMessage = ""; // 화면에 띄울 커스텀 알림 메시지
+
+        // --- 진화의 제단 정의 (중앙 구역) ---
+        const ALTAR = {
+            x: WORLD_SIZE / 2,
+            y: WORLD_SIZE / 2,
+            r: 280 // 중앙 구역 반지름
+        };
+
+        // --- 파지 10단계 진화 티어 테크트리 테이블 ---
+        const PHAGE_TIERS = [
+            { tier: 1, name: "나노 파지 (Lvl.1)", scale: 1.0, powerMultiplier: 1.0, color: '#4ade80', stroke: '#22c55e' },
+            { tier: 2, name: "거대 파지 (Lvl.2)", scale: 1.8, powerMultiplier: 2.2, color: '#60a5fa', stroke: '#2563eb' },
+            { tier: 3, name: "짱짱 파지 (Lvl.3)", scale: 2.6, powerMultiplier: 3.8, color: '#c084fc', stroke: '#7c3aed' },
+            { tier: 4, name: "슈퍼-알파 파지 (Lvl.4)", scale: 3.5, powerMultiplier: 6.0, color: '#f43f5e', stroke: '#be123c' },
+            { tier: 5, name: "오메가 코어 파지 (Lvl.5)", scale: 4.5, powerMultiplier: 9.5, color: '#fb923c', stroke: '#ea580c' },
+            { tier: 6, name: "사이오닉 드레드노트 (Lvl.6)", scale: 5.6, powerMultiplier: 14.0, color: '#facc15', stroke: '#ca8a04' },
+            { tier: 7, name: "아스트랄 가디언 (Lvl.7)", scale: 6.8, powerMultiplier: 20.0, color: '#2dd4bf', stroke: '#0d9488' },
+            { tier: 8, name: "시공의 파지 (Lvl.8)", scale: 8.0, powerMultiplier: 28.0, color: '#e879f9', stroke: '#c026d3' },
+            { tier: 9, name: "코스믹 리퍼 (Lvl.9)", scale: 9.5, powerMultiplier: 40.0, color: '#a7f3d0', stroke: '#059669' },
+            { tier: 10, name: "창조신의 나노 암즈 (Lvl.10)", scale: 11.5, powerMultiplier: 65.0, color: '#fef08a', stroke: '#eab308' }
+        ];
+
+        // --- 세균 전용 파스텔톤 컬러 정의 (순서 오류 방지를 위해 상위 배치) ---
+        const pastelColors = [
+            { main: '#fca5a5', border: '#f87171', shadow: '#ef4444' }, 
+            { main: '#fed7aa', border: '#fb923c', shadow: '#f97316' }, 
+            { main: '#c084fc', border: '#a855f7', shadow: '#8b5cf6' }, 
+            { main: '#93c5fd', border: '#60a5fa', shadow: '#3b82f6' }  
+        ];
 
         // --- 2. 다크/라이트 모드 테마 제어 시스템 ---
         const themeBtn = document.getElementById('theme-toggle');
@@ -334,6 +368,12 @@
         // --- 3. 실시간 유연한 바람 조작 로직 (WASD + 마우스 연계) ---
         const powerInput = document.getElementById('input-wind-power');
         const powerDisplay = document.getElementById('wind-power-display');
+        
+        function updateWindPowerSlider() {
+            if (powerInput) powerInput.value = windPower.toFixed(1);
+            if (powerDisplay) powerDisplay.innerText = windPower.toFixed(1) + 'x';
+        }
+
         if (powerInput) {
             powerInput.addEventListener('input', (e) => {
                 windPower = parseFloat(e.target.value);
@@ -341,7 +381,7 @@
             });
         }
 
-        // 키보드 WASD 바인딩
+        // 키보드 WASD 및 J(감속)/K(가속) 바인딩
         window.addEventListener('keydown', (e) => {
             const key = e.key.toLowerCase();
             let keyId = "";
@@ -349,6 +389,16 @@
             if (key === 'a' || e.key === 'ArrowLeft') { activeKeys.a = true; keyId = 'key-A'; }
             if (key === 's' || e.key === 'ArrowDown') { activeKeys.s = true; keyId = 'key-S'; }
             if (key === 'd' || e.key === 'ArrowRight') { activeKeys.d = true; keyId = 'key-D'; }
+
+            // [J/K] 풍속 실시간 단축키 제어
+            if (key === 'j') {
+                windPower = Math.max(0.5, windPower - 0.2);
+                updateWindPowerSlider();
+            }
+            if (key === 'k') {
+                windPower = Math.min(5.0, windPower + 0.2);
+                updateWindPowerSlider();
+            }
 
             if (keyId) {
                 const btn = document.getElementById(keyId);
@@ -433,23 +483,14 @@
         }
 
         // --- 5. 귀여운 세균 (CuteBacteria) 클래스 ---
-        const pastelColors = [
-            { main: '#fca5a5', border: '#f87171', shadow: '#ef4444' }, 
-            { main: '#fed7aa', border: '#fb923c', shadow: '#f97316' }, 
-            { main: '#c084fc', border: '#a855f7', shadow: '#8b5cf6' }, 
-            { main: '#93c5fd', border: '#60a5fa', shadow: '#3b82f6' }  
-        ];
-
         class CuteBacteria {
             constructor(spawnNearCenter = false) {
                 if (spawnNearCenter) {
-                    // 첫 로딩 시에는 유저 시야 안에서 스폰
-                    this.x = WORLD_SIZE / 2 + (Math.random() - 0.5) * 500;
-                    this.y = WORLD_SIZE / 2 + (Math.random() - 0.5) * 500;
+                    this.x = WORLD_SIZE / 2 + (Math.random() - 0.5) * 800;
+                    this.y = WORLD_SIZE / 2 + (Math.random() - 0.5) * 800;
                 } else {
-                    // 무한 맵 무작위 스폰
-                    this.x = Math.random() * (WORLD_SIZE - 200) + 100;
-                    this.y = Math.random() * (WORLD_SIZE - 200) + 100;
+                    this.x = Math.random() * (WORLD_SIZE - 400) + 200;
+                    this.y = Math.random() * (WORLD_SIZE - 400) + 200;
                 }
                 this.width = 44;
                 this.height = 22;
@@ -472,7 +513,10 @@
                 keepInWorld(this, this.width / 2);
 
                 if (this.isInfected && this.infectionProgress < 1) {
-                    this.infectionProgress += upgrades.injection.value;
+                    // 현재 활성화된 파지들의 평균 티어 배율 보정 적용
+                    const avgTierMultiplier = getAvgPhageTierPower();
+                    const injectionSpeed = upgrades.injection.value * avgTierMultiplier;
+                    this.infectionProgress += injectionSpeed;
                     
                     if (Math.random() < 0.4) {
                         particles.push(new DnaDot(this.x, this.y, this.color.shadow));
@@ -486,34 +530,38 @@
 
             burstAndLysis() {
                 this.isDead = true;
-                addDnaPoints(45);
+                
+                // 최고 티어 보너스에 가속된 DNA 점수 산출
+                const highestTier = getHighestPhageTier();
+                addDnaPoints(45 * highestTier); 
 
-                // 파티클 폭발 이펙트
-                for (let i = 0; i < 20; i++) {
-                    particles.push(new FlatParticle(this.x, this.y, this.color.border));
+                // 파티클 폭발 이펙트 (티어 컬러 매칭)
+                const tierInfo = PHAGE_TIERS[highestTier - 1] || PHAGE_TIERS[0];
+                const burstColor = tierInfo.color;
+                for (let i = 0; i < (20 + highestTier * 3); i++) {
+                    particles.push(new FlatParticle(this.x, this.y, burstColor));
                 }
 
-                // 기하급수적 자손 증식 기제
+                // 자손 파지는 감염 단계가 끝날 때 항상 해당 구역 파지들의 최고 티어로 생성됨
                 const offspringCount = upgrades.burst.value;
                 for (let i = 0; i < offspringCount; i++) {
                     const angle = (i * Math.PI * 2) / offspringCount + (Math.random() - 0.5) * 0.3;
-                    phageSwarm.push(new MiniaturePhage(this.x, this.y, angle));
+                    const child = new MiniaturePhage(this.x, this.y, angle);
+                    child.tier = highestTier; // 상속 진화
+                    phageSwarm.push(child);
                 }
             }
 
             draw() {
-                // 월드 좌표를 카메라 스크린 좌표로 변환
                 let sx = this.x - camera.x + canvas.width / 2;
                 let sy = this.y - camera.y + canvas.height / 2;
 
-                // 스크린 이탈 연산 (그리기 생략으로 프레임 보장)
                 if (sx < -100 || sx > canvas.width + 100 || sy < -100 || sy > canvas.height + 100) return;
 
                 ctx.save();
                 ctx.translate(sx, sy);
                 ctx.rotate(this.angle);
 
-                // 플랫 섀도우
                 ctx.fillStyle = 'rgba(0,0,0,0.05)';
                 ctx.beginPath();
                 ctx.arc(-2, 2, this.height / 2, Math.PI / 2, (Math.PI * 3) / 2);
@@ -526,8 +574,10 @@
                 let strokeColor = this.color.border;
 
                 if (this.isInfected) {
-                    bodyColor = blendColors(this.color.main, '#4ade80', this.infectionProgress);
-                    strokeColor = blendColors(this.color.border, '#22c55e', this.infectionProgress);
+                    const highestTier = getHighestPhageTier();
+                    const tierInfo = PHAGE_TIERS[highestTier - 1] || PHAGE_TIERS[0];
+                    bodyColor = blendColors(this.color.main, tierInfo.color, this.infectionProgress);
+                    strokeColor = blendColors(this.color.border, tierInfo.stroke, this.infectionProgress);
                 }
 
                 ctx.fillStyle = bodyColor;
@@ -543,7 +593,6 @@
                 ctx.fill();
                 ctx.stroke();
 
-                // 표정 얼굴
                 ctx.fillStyle = '#1e293b';
                 if (this.isInfected) {
                     ctx.strokeStyle = '#1e293b';
@@ -589,12 +638,13 @@
             return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
 
-        // --- 6. 극소형 박테리오파지 (Miniature Phage) 클래스 ---
+        // --- 6. 다단계 진화 구조를 탑재한 박테리오파지 (Phage) 클래스 ---
         class MiniaturePhage {
             constructor(x, y, angle = Math.random() * Math.PI * 2) {
                 this.x = x;
                 this.y = y;
-                this.size = 2.8; 
+                this.baseSize = 2.8; 
+                this.tier = 1; // 1단계 ~ 10단계 무한 각성 진화 테크
                 
                 this.vx = Math.cos(angle) * (Math.random() * 2 + 1);
                 this.vy = Math.sin(angle) * (Math.random() * 2 + 1);
@@ -621,11 +671,12 @@
                 this.x += this.vx;
                 this.y += this.vy;
 
-                keepInWorld(this, this.size);
+                keepInWorld(this, this.baseSize * this.getScaleFactor());
 
-                // 숙주 검색
+                // 숙주 검색 (티어 보정에 기인하여 감지 자기 반경 증대)
                 let nearest = null;
-                let minDist = upgrades.magnetic.value;
+                const speedFactor = this.getScaleFactor();
+                let minDist = upgrades.magnetic.value * speedFactor;
 
                 bacteriaList.forEach(bac => {
                     if (!bac.isInfected && !bac.isDead) {
@@ -640,10 +691,10 @@
                 if (nearest) {
                     let dx = nearest.x - this.x;
                     let dy = nearest.y - this.y;
-                    this.x += (dx / minDist) * 2.5;
-                    this.y += (dy / minDist) * 2.5;
+                    this.x += (dx / minDist) * 2.5 * speedFactor;
+                    this.y += (dy / minDist) * 2.5 * speedFactor;
 
-                    if (minDist < 16) {
+                    if (minDist < 16 * speedFactor) {
                         this.targetHost = nearest;
                         this.isDocked = true;
                         nearest.isInfected = true;
@@ -656,11 +707,19 @@
                 return this.isDocked && this.targetHost && !this.targetHost.isDead;
             }
 
+            getScaleFactor() {
+                const info = PHAGE_TIERS[this.tier - 1] || PHAGE_TIERS[0];
+                return info.scale;
+            }
+
             draw() {
                 let sx = this.x - camera.x + canvas.width / 2;
                 let sy = this.y - camera.y + canvas.height / 2;
 
-                if (sx < -50 || sx > canvas.width + 50 || sy < -50 || sy > canvas.height + 50) return;
+                const scale = this.getScaleFactor();
+                const drawRadius = this.baseSize * scale;
+
+                if (sx < -100 || sx > canvas.width + 100 || sy < -100 || sy > canvas.height + 100) return;
 
                 ctx.save();
                 ctx.translate(sx, sy);
@@ -671,16 +730,19 @@
                 }
                 ctx.rotate(angle);
 
-                ctx.fillStyle = themeMode === 'dark' ? '#4ade80' : '#22c55e';
-                ctx.strokeStyle = themeMode === 'dark' ? '#22c55e' : '#15803d';
-                ctx.lineWidth = 1.0;
+                // 현재 진화 단계 티어 정보 획득
+                const tierInfo = PHAGE_TIERS[this.tier - 1] || PHAGE_TIERS[0];
 
-                // 머리 육각형
+                ctx.fillStyle = tierInfo.color;
+                ctx.strokeStyle = tierInfo.stroke;
+                ctx.lineWidth = 1.0 + (scale * 0.2);
+
+                // 머리 육각형 그리기 (티어 스케일 적용)
                 ctx.beginPath();
                 for (let i = 0; i < 6; i++) {
                     let a = (i * Math.PI) / 3;
-                    let px = Math.cos(a) * this.size;
-                    let py = Math.sin(a) * this.size - this.size;
+                    let px = Math.cos(a) * drawRadius;
+                    let py = Math.sin(a) * drawRadius - drawRadius;
                     if (i === 0) ctx.moveTo(px, py);
                     else ctx.lineTo(px, py);
                 }
@@ -691,40 +753,55 @@
                 // 꼬리 주입 튜브
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
-                ctx.lineTo(0, this.size * 1.5);
+                ctx.lineTo(0, drawRadius * 1.5);
                 ctx.stroke();
 
                 // 다리
                 ctx.beginPath();
-                ctx.moveTo(0, this.size * 1.5); ctx.lineTo(-this.size * 0.9, this.size * 2.2);
-                ctx.moveTo(0, this.size * 1.5); ctx.lineTo(this.size * 0.9, this.size * 2.2);
-                ctx.moveTo(0, this.size * 1.5); ctx.lineTo(0, this.size * 2.5);
+                ctx.moveTo(0, drawRadius * 1.5); ctx.lineTo(-drawRadius * 0.9, drawRadius * 2.2);
+                ctx.moveTo(0, drawRadius * 1.5); ctx.lineTo(drawRadius * 0.9, drawRadius * 2.2);
+                ctx.moveTo(0, drawRadius * 1.5); ctx.lineTo(0, drawRadius * 2.5);
                 ctx.stroke();
 
                 ctx.restore();
             }
         }
 
-        // --- 7. 새로운 시스템: 천적 백혈구 (Macrophage) 클래스 ---
+        // --- 7. 백혈구 (Macrophage) 클래스 (무한 정밀 진화 스택 탑재) ---
         class Macrophage {
             constructor() {
-                // 시야 바깥 무작위 장소에 스폰
                 this.x = Math.random() * WORLD_SIZE;
                 this.y = Math.random() * WORLD_SIZE;
-                this.r = 48; // 거대한 청소기 포스
+                this.baseR = 48; // 기본 사이즈
                 
-                // 가벼운 순찰 이동 속도 설정
                 this.vx = (Math.random() - 0.5) * 1.5;
                 this.vy = (Math.random() - 0.5) * 1.5;
                 
                 this.eatingAnimation = 0;
                 this.pulseOffset = Math.random() * 100;
+
+                // 무한 밸런싱 진화 레벨 시스템
+                this.eatenCount = 0; 
+                this.level = 1; // 무한 진화 레벨 (Lvl 1, 2, 3, 4 ...)
             }
 
             update() {
-                // 가장 가까운 파지 탐색하여 공격 대상 설정
+                // 포식할 때마다 레벨 업 조건 계산 (Lvl N을 달성하기 위해 필요한 누적 포식 수 보정)
+                const nextLevelThreshold = this.level * 4; 
+                if (this.eatenCount >= nextLevelThreshold) {
+                    this.level++;
+                    
+                    // 레벨 업 마다 전용 충격파 이펙트 생성
+                    for (let i = 0; i < 15; i++) {
+                        particles.push(new FlatParticle(this.x, this.y, '#f43f5e'));
+                    }
+                }
+
+                // 현재 백혈구 레벨에 맞춰 위협 구역(Radius) 유연 산출
+                this.r = this.baseR + (this.level - 1) * 10; 
+
                 let nearestPhage = null;
-                let minDist = 320; // 백혈구 감지 거리
+                let minDist = 300 + this.level * 40; // 레벨업에 기인한 광역 탐색
 
                 phageSwarm.forEach(p => {
                     let d = Math.hypot(p.x - this.x, p.y - this.y);
@@ -735,19 +812,18 @@
                 });
 
                 if (nearestPhage) {
-                    // 표적이 된 파지를 사나운 가속도로 추격
                     let angle = Math.atan2(nearestPhage.y - this.y, nearestPhage.x - this.x);
-                    this.vx += Math.cos(angle) * 0.18;
-                    this.vy += Math.sin(angle) * 0.18;
+                    // 레벨 증가에 따른 기동 추격 추진력 증가
+                    const acceleration = 0.15 + (this.level * 0.05);
+                    this.vx += Math.cos(angle) * acceleration;
+                    this.vy += Math.sin(angle) * acceleration;
                 } else {
-                    // 주변 파지가 없을 때 자율 순항 정화 비행
                     this.vx += (Math.random() - 0.5) * 0.1;
                     this.vy += (Math.random() - 0.5) * 0.1;
                 }
 
-                // 속도 상한
                 let speed = Math.hypot(this.vx, this.vy);
-                let maxSpeed = nearestPhage ? 2.5 : 1.2;
+                let maxSpeed = nearestPhage ? (2.2 + this.level * 0.3) : 1.2; // 무한 추격 기동력 증가
                 if (speed > maxSpeed) {
                     this.vx = (this.vx / speed) * maxSpeed;
                     this.vy = (this.vy / speed) * maxSpeed;
@@ -758,16 +834,16 @@
 
                 keepInWorld(this, this.r);
 
-                // 파지 무리 사냥 충돌 충격 검사
+                // 파지 사냥 포식 검사
                 for (let i = phageSwarm.length - 1; i >= 0; i--) {
                     let p = phageSwarm[i];
                     let distToPhage = Math.hypot(p.x - this.x, p.y - this.y);
-                    if (distToPhage < this.r + p.size) {
-                        // 빨아들여 파괴 완료
+                    if (distToPhage < this.r + (p.size * p.getScaleFactor())) {
                         phageSwarm.splice(i, 1);
-                        this.eatingAnimation = 15; // 쩝쩝거리는 모션 프레임 연장
+                        this.eatingAnimation = 15; 
+                        this.eatenCount++; 
                         
-                        // 파지 제거 붉은 파편 형성
+                        // 사냥 붉은 파편
                         for (let j = 0; j < 5; j++) {
                             particles.push(new FlatParticle(p.x, p.y, '#ef4444'));
                         }
@@ -781,40 +857,42 @@
                 let sx = this.x - camera.x + canvas.width / 2;
                 let sy = this.y - camera.y + canvas.height / 2;
 
-                if (sx < -120 || sx > canvas.width + 120 || sy < -120 || sy > canvas.height + 120) return;
+                const drawLimit = this.r * 2.5;
+                if (sx < -drawLimit || sx > canvas.width + drawLimit || sy < -drawLimit || sy > canvas.height + drawLimit) return;
 
                 ctx.save();
                 ctx.translate(sx, sy);
 
-                // 몸체 아메바풍 굴곡 진동 렌더링
                 let pulse = 1 + Math.sin(Date.now() * 0.005 + this.pulseOffset) * 0.04;
-                if (this.eatingAnimation > 0) pulse *= 1.15; // 포식 시 일시 팽창 효과
+                if (this.eatingAnimation > 0) pulse *= 1.15; 
 
-                ctx.fillStyle = themeMode === 'dark' ? '#f1f5f9' : '#e2e8f0';
-                ctx.strokeStyle = themeMode === 'dark' ? '#cbd5e1' : '#94a3b8';
-                ctx.lineWidth = 4.5;
+                // 진화 단계에 따른 무서운 붉은 그라데이션 광배 연출
+                const redIntensity = Math.min(255, 100 + this.level * 15);
+                ctx.fillStyle = `rgba(${redIntensity}, ${245 - this.level*20}, ${245 - this.level*20}, 0.9)`;
+                ctx.strokeStyle = `rgb(${redIntensity}, 50, 50)`;
+                ctx.lineWidth = 3.5 + (this.level * 0.5);
 
                 ctx.beginPath();
                 ctx.arc(0, 0, this.r * pulse, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
-                // 사나운 안구 조직 드로잉
+                // 안구 조직 드로잉 (분노 수치 상승)
                 ctx.fillStyle = '#1e293b';
                 ctx.beginPath();
                 ctx.arc(-14, -8, 4.5, 0, Math.PI * 2);
                 ctx.arc(14, -8, 4.5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // 앵그리 브로우 눈썹
-                ctx.strokeStyle = '#1e293b';
-                ctx.lineWidth = 3;
+                // 사나운 안구 레이저
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3 + (this.level * 0.5);
                 ctx.beginPath();
                 ctx.moveTo(-20, -15); ctx.lineTo(-8, -11);
                 ctx.moveTo(20, -15); ctx.lineTo(8, -11);
                 ctx.stroke();
 
-                // 진공 흡입 입구 드로잉
+                // 입 구조
                 ctx.fillStyle = '#1e293b';
                 if (this.eatingAnimation > 0) {
                     ctx.beginPath();
@@ -826,13 +904,20 @@
                     ctx.stroke();
                 }
 
-                // 주변 진공 수축 아우라선 효과
-                ctx.strokeStyle = 'rgba(239, 68, 68, 0.15)';
-                ctx.lineWidth = 2.5;
+                // 주변 수축 위협 오라 파장선 드로잉
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.25)';
+                ctx.lineWidth = 1.5 + (this.level * 0.3);
                 ctx.setLineDash([8, 12]);
                 ctx.beginPath();
-                ctx.arc(0, 0, this.r * pulse + 15 + Math.sin(Date.now() * 0.01) * 6, 0, Math.PI * 2);
+                ctx.arc(0, 0, this.r * pulse + 15 + Math.sin(Date.now() * 0.01) * 8, 0, Math.PI * 2);
                 ctx.stroke();
+
+                // 백혈구 머리통 위에 무한 진화 레벨 텍스트 표기
+                ctx.fillStyle = '#f87171';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`★ Lvl.${this.level}`, 0, -this.r - 15);
 
                 ctx.restore();
             }
@@ -894,7 +979,12 @@
 
                 ctx.save();
                 ctx.globalAlpha = this.life;
-                ctx.fillStyle = '#4ade80';
+                
+                // 최고 도달한 파지 등급의 이펙트 칼라 적용
+                const highestTier = getHighestPhageTier();
+                const tierInfo = PHAGE_TIERS[highestTier - 1] || PHAGE_TIERS[0];
+                ctx.fillStyle = tierInfo.color;
+
                 ctx.beginPath();
                 ctx.arc(sx, sy, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -926,7 +1016,9 @@
                 if (sx < -100 || sx > canvas.width + 100 || sy < -100 || sy > canvas.height + 100) return;
 
                 ctx.save();
-                ctx.strokeStyle = themeMode === 'dark' ? '#4ade80' : '#22c55e';
+                const highestTier = getHighestPhageTier();
+                const tierInfo = PHAGE_TIERS[highestTier - 1] || PHAGE_TIERS[0];
+                ctx.strokeStyle = tierInfo.color;
                 ctx.globalAlpha = this.opacity;
                 ctx.lineWidth = 1.5;
                 ctx.setLineDash([15, 12]);
@@ -938,10 +1030,93 @@
             }
         }
 
-        // --- 9. 카메라 추적 시스템 및 HUD 통합 ---
+        // --- 9. 실시간 가중치 수치화 가중 함수들 ---
+        function getHighestPhageTier() {
+            if (phageSwarm.length === 0) return 1;
+            let maxTier = 1;
+            phageSwarm.forEach(p => {
+                if (p.tier > maxTier) maxTier = p.tier;
+            });
+            return maxTier;
+        }
+
+        function getAvgPhageTierPower() {
+            if (phageSwarm.length === 0) return 1.0;
+            let totalPower = 0;
+            phageSwarm.forEach(p => {
+                const info = PHAGE_TIERS[p.tier - 1] || PHAGE_TIERS[0];
+                totalPower += info.powerMultiplier;
+            });
+            return totalPower / phageSwarm.length;
+        }
+
+        // --- 10. 중앙 "진화의 제단" 관리 및 합체 각성 물리 연산 ---
+        function countPhagesInAltar() {
+            let count = 0;
+            phageSwarm.forEach(p => {
+                let d = Math.hypot(p.x - ALTAR.x, p.y - ALTAR.y);
+                if (d < ALTAR.r) {
+                    count++;
+                }
+            });
+            return count;
+        }
+
+        function handleAltarEvolution() {
+            const phagesInAltar = [];
+            phageSwarm.forEach(p => {
+                let d = Math.hypot(p.x - ALTAR.x, p.y - ALTAR.y);
+                if (d < ALTAR.r) {
+                    phagesInAltar.push(p);
+                }
+            });
+
+            // 제단 구역 내부에 100마리 이상의 파지가 들어갔을 시 즉각 100->1 합체 진화 트리거!
+            if (phagesInAltar.length >= 100) {
+                // 제단 안에 있는 파지들의 최고 티어를 획득
+                let highestInside = 1;
+                phagesInAltar.forEach(p => {
+                    if (p.tier > highestInside) highestInside = p.tier;
+                });
+
+                // 합체할 다음 타겟 등급 선정 (최대 10단계 상한선)
+                const nextTier = Math.min(10, highestInside + 1);
+                
+                // 제단 내의 100마리 파지 삭제 및 파쇄화 효과 형성
+                let countToFuse = 100;
+                for (let i = phageSwarm.length - 1; i >= 0; i--) {
+                    let p = phageSwarm[i];
+                    let d = Math.hypot(p.x - ALTAR.x, p.y - ALTAR.y);
+                    if (d < ALTAR.r && countToFuse > 0) {
+                        // 제거 이펙트 파티클 투하
+                        particles.push(new FlatParticle(p.x, p.y, PHAGE_TIERS[p.tier - 1].color));
+                        phageSwarm.splice(i, 1);
+                        countToFuse--;
+                    }
+                }
+
+                // 100마리를 거대한 1마리로 압축 및 제단 정중앙에 탄생시킴
+                const giantPhage = new MiniaturePhage(ALTAR.x, ALTAR.y);
+                giantPhage.tier = nextTier;
+                phageSwarm.push(giantPhage);
+
+                // 스펙터클한 우주 진화 연출 가동
+                evolutionAlertTimer = 180;
+                alertMessage = `💥 제단 합체 성공! 티어 ${nextTier} 각성! 💥`;
+
+                // 황금 네온 고리 이펙트 파편 전역 사출
+                const nextInfo = PHAGE_TIERS[nextTier - 1];
+                for (let i = 0; i < 40; i++) {
+                    particles.push(new FlatParticle(ALTAR.x, ALTAR.y, nextInfo.color));
+                }
+
+                updateDashboardUI();
+            }
+        }
+
+        // --- 11. 카메라 추적 시스템 및 HUD 통합 ---
         function updateCamera() {
             if (phageSwarm.length > 0) {
-                // 모든 활성 파지들의 평균 중심(Centroid) 위치 계산
                 let avgX = 0;
                 let avgY = 0;
                 phageSwarm.forEach(p => {
@@ -951,49 +1126,131 @@
                 avgX /= phageSwarm.length;
                 avgY /= phageSwarm.length;
 
-                // 카메라 대상 좌표 보간 스무딩
                 camera.targetX = avgX;
                 camera.targetY = avgY;
             }
 
-            // 카메라 선형 보간 이동
             camera.x += (camera.targetX - camera.x) * 0.08;
             camera.y += (camera.targetY - camera.y) * 0.08;
 
-            // 카메라가 가상 월드 바깥으로 빠져나가지 못하게 조율
             const halfW = canvas.width / 2;
             const halfH = canvas.height / 2;
             camera.x = Math.max(halfW, Math.min(WORLD_SIZE - halfW, camera.x));
             camera.y = Math.max(halfH, Math.min(WORLD_SIZE - halfH, camera.y));
         }
 
-        // --- 10. 시뮬레이터 라이프사이클 엔진 ---
+        // --- 12. 지렁이 게임 스타일 실시간 미니맵(Minimap) 구현 ---
+        function drawMinimap() {
+            ctx.save();
+
+            // 미니맵 위치와 사이즈 정의
+            const r = 55; 
+            const offset = 20; 
+            const cx = canvas.width - r - offset;
+            const cy = canvas.height - r - offset;
+
+            // 미니맵 원형 섀도우 & 백그라운드 그리기
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = themeMode === 'dark' ? 'rgba(17, 24, 39, 0.85)' : 'rgba(255, 255, 255, 0.85)';
+            ctx.strokeStyle = themeMode === 'dark' ? '#374151' : '#cbd5e1';
+            ctx.lineWidth = 3;
+            ctx.fill();
+            ctx.stroke();
+            ctx.shadowColor = 'transparent'; 
+
+            // 월드 비율 팩터 연산
+            const scale = (r * 2) / WORLD_SIZE;
+
+            // 0. 중앙 제단 구역 원형 가이드라인 그리기
+            let amx = cx - r + (ALTAR.x * scale);
+            let amy = cy - r + (ALTAR.y * scale);
+            ctx.beginPath();
+            ctx.arc(amx, amy, ALTAR.r * scale, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // 1. 세균 도트 그리기 (노란색)
+            bacteriaList.forEach(bac => {
+                let mx = cx - r + (bac.x * scale);
+                let my = cy - r + (bac.y * scale);
+                ctx.beginPath();
+                ctx.arc(mx, my, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#eab308';
+                ctx.fill();
+            });
+
+            // 2. 내 파지 도트 그리기 (최고 도달 티어 컬러 매칭)
+            phageSwarm.forEach(p => {
+                let mx = cx - r + (p.x * scale);
+                let my = cy - r + (p.y * scale);
+                ctx.beginPath();
+                ctx.arc(mx, my, 1.5, 0, Math.PI * 2);
+                const info = PHAGE_TIERS[p.tier - 1] || PHAGE_TIERS[0];
+                ctx.fillStyle = info.color;
+                ctx.fill();
+            });
+
+            // 3. 백혈구 도트 그리기 (붉은색)
+            enemies.forEach(en => {
+                let mx = cx - r + (en.x * scale);
+                let my = cy - r + (en.y * scale);
+                ctx.beginPath();
+                ctx.arc(mx, my, 2.5 + (en.level * 0.5), 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+            });
+
+            // 4. 현재 화면 관찰 뷰포트 상자 그리기
+            let viewW = canvas.width * scale;
+            let viewH = canvas.height * scale;
+            let viewX = cx - r + ((camera.x - canvas.width / 2) * scale);
+            let viewY = cy - r + ((camera.y - canvas.height / 2) * scale);
+
+            const highest = getHighestPhageTier();
+            ctx.strokeStyle = PHAGE_TIERS[highest - 1].color;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.rect(viewX, viewY, viewW, viewH);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // --- 13. 시뮬레이터 라이프사이클 엔진 ---
         function initChamber() {
             phageSwarm = [];
             bacteriaList = [];
             enemies = [];
             particles = [];
             windVisualLines = [];
+            
+            isGameOver = false;
+            gameOverTimer = 0;
+            evolutionAlertTimer = 0;
+            alertMessage = "";
 
             // 1. 바람 유성선 투하
             for (let i = 0; i < 45; i++) {
                 windVisualLines.push(new WindVisualLine());
             }
 
-            // 2. 월드 맵에 박테리아 40마리 균등 전파 분산 스폰
-            for (let i = 0; i < 40; i++) {
-                bacteriaList.push(new CuteBacteria(i < 8)); // 8마리는 로딩 시 유저 화면 근처에 스폰
+            // 2. 월드 맵 전역에 넉넉하게 대장균 55마리 스폰 (자동 순환)
+            for (let i = 0; i < 55; i++) {
+                bacteriaList.push(new CuteBacteria(i < 12)); 
             }
 
-            // 3. 천적 백혈구 4마리 스폰
-            for (let i = 0; i < 4; i++) {
+            // 3. 백혈구 5마리 분산 배치
+            for (let i = 0; i < 5; i++) {
                 enemies.push(new Macrophage());
             }
 
-            // 4. 최초 1마리의 박테리오파지로 기품있게 개시! (마켓오브라우니님의 요구 구현)
+            // 4. 최초 1마리의 박테리오파지 탑재
             phageSwarm.push(new MiniaturePhage(WORLD_SIZE / 2, WORLD_SIZE / 2));
 
-            // 카메라를 초기 위치로 스냅
             camera.x = WORLD_SIZE / 2;
             camera.y = WORLD_SIZE / 2;
 
@@ -1019,14 +1276,22 @@
             const countDisplay = document.getElementById('phage-count-display');
             if (countDisplay) countDisplay.innerText = phageSwarm.length;
 
-            const infectedDisplay = document.getElementById('infected-count-display');
-            if (infectedDisplay) {
-                const infected = bacteriaList.filter(b => b.isInfected).length;
-                infectedDisplay.innerText = `${infected} / ${bacteriaList.length}`;
+            const altarCountDisplay = document.getElementById('altar-phage-count-display');
+            if (altarCountDisplay) {
+                const altarCount = countPhagesInAltar();
+                altarCountDisplay.innerText = `${altarCount} / 100`;
+            }
+
+            const tierDisplay = document.getElementById('phage-tier-display');
+            if (tierDisplay) {
+                const highest = getHighestPhageTier();
+                const info = PHAGE_TIERS[highest - 1] || PHAGE_TIERS[0];
+                tierDisplay.innerText = `티어 ${info.tier}: ${info.name}`;
+                tierDisplay.style.color = info.color;
             }
         }
 
-        // --- 11. 유전자 업그레이드 전사 엔진 ---
+        // --- 14. 유전자 업그레이드 전사 엔진 ---
         function getUpgradeCost(key) {
             const upg = upgrades[key];
             return Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level - 1));
@@ -1078,16 +1343,11 @@
             });
         }
 
-        // --- 12. 전체 화면 캔버스 렌더링 최적화 루프 ---
+        // --- 15. 전체 화면 캔버스 렌더링 최적화 루프 ---
         function setupCanvasSize() {
             const container = canvas.parentElement;
             canvas.width = container.clientWidth;
             canvas.height = container.clientHeight;
-            initPetriNetwork();
-        }
-
-        function initPetriNetwork() {
-            // 무한 모드에서는 3000px 월드 배양접시로 설정하므로, 화면 가시 챔버용 기하학적 요소 초기화 생략
         }
 
         window.addEventListener('resize', () => {
@@ -1106,13 +1366,16 @@
             // 3. 월드 격자 그리드 및 경계 배경선 그리기
             drawWorldScrollingGrid();
 
+            // 3-1. 중앙 "진화의 제단" 영역 그리기
+            drawAltarZone();
+
             // 4. 바람 흐름 안내선 연산 및 드로잉
             windVisualLines.forEach(wl => {
                 wl.update();
                 wl.draw();
             });
 
-            // 5. 세균 업데이트 및 컬링 렌더링
+            // 5. 세균 업데이트 및 렌더링
             bacteriaList = bacteriaList.filter(b => !b.isDead);
             bacteriaList.forEach(bac => {
                 bac.update();
@@ -1120,7 +1383,7 @@
             });
 
             // 최소 세균 밀도 유지
-            if (bacteriaList.length < 25) {
+            if (bacteriaList.length < 50) {
                 bacteriaList.push(new CuteBacteria());
             }
 
@@ -1130,11 +1393,14 @@
                 ph.draw();
             });
 
-            // 7. 천적 백혈구 정밀 추격 업데이트 및 렌더링
+            // 7. 천적 백혈구 추격 업데이트 및 렌더링
             enemies.forEach(en => {
                 en.update();
                 en.draw();
             });
+
+            // 7. 제단 내 100마리 합체 각성 이벤트 연산
+            handleAltarEvolution();
 
             // 8. 파열 및 타격 스파크 이펙트 렌더링
             particles = particles.filter(pt => pt.life > 0);
@@ -1143,28 +1409,170 @@
                 pt.draw();
             });
 
+            // 9. 대화상자 알림 패널 업데이트
+            drawAlertMessages();
+
+            // 10. 파지 전멸(Game Over) 시 3초 후 자동 재시작 로직 실행
+            handleGameOverState();
+
+            // 11. 실시간 지렁이 게임 스타일 미니맵 드로잉
+            drawMinimap();
+
             updateDashboardUI();
             requestAnimationFrame(animate);
+        }
+
+        // 맵 중앙에 위치하는 진화의 제단 특수 시각화 드로잉
+        function drawAltarZone() {
+            let sx = ALTAR.x - camera.x + canvas.width / 2;
+            let sy = ALTAR.y - camera.y + canvas.height / 2;
+
+            // 시야 바깥 영역 컬링
+            if (sx < -ALTAR.r || sx > canvas.width + ALTAR.r || sy < -ALTAR.r || sy > canvas.height + ALTAR.r) return;
+
+            ctx.save();
+            
+            // 제단 원형 투명 광원 효과
+            const gradient = ctx.createRadialGradient(sx, sy, 0, sx, sy, ALTAR.r);
+            gradient.addColorStop(0, 'rgba(245, 158, 11, 0.12)');
+            gradient.addColorStop(0.7, 'rgba(245, 158, 11, 0.04)');
+            gradient.addColorStop(1, 'rgba(245, 158, 11, 0)');
+            
+            ctx.beginPath();
+            ctx.arc(sx, sy, ALTAR.r, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // 진동하는 원형 황금 네온 라인 드로잉
+            ctx.strokeStyle = `rgba(245, 158, 11, ${Math.sin(Date.now() * 0.003) * 0.25 + 0.45})`;
+            ctx.lineWidth = 4;
+            ctx.setLineDash([12, 10]);
+            ctx.beginPath();
+            ctx.arc(sx, sy, ALTAR.r, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // 제단 룬 문자 및 안내 표기
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.7)';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('⚡ 진화의 제단 (EVOLUTION ALTAR) ⚡', sx, sy - 15);
+            
+            const currentIn = countPhagesInAltar();
+            ctx.fillStyle = currentIn >= 70 ? '#fbbf24' : '#94a3b8';
+            ctx.font = '900 24px sans-serif';
+            ctx.fillText(`${currentIn} / 100 파지 합체 중`, sx, sy + 20);
+
+            ctx.restore();
+        }
+
+        // 합체 성공 등 대화 오버레이 연출 드로잉
+        function drawAlertMessages() {
+            if (evolutionAlertTimer > 0) {
+                evolutionAlertTimer--;
+                
+                const highest = getHighestPhageTier();
+                const tierInfo = PHAGE_TIERS[highest - 1] || PHAGE_TIERS[0];
+
+                ctx.save();
+                // 오라 테두리 가두기
+                ctx.strokeStyle = `${tierInfo.color}`;
+                ctx.lineWidth = 12;
+                ctx.beginPath();
+                ctx.rect(0, 0, canvas.width, canvas.height);
+                ctx.stroke();
+
+                // 알림 판넬 드로잉
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+                ctx.strokeStyle = tierInfo.color;
+                ctx.lineWidth = 3;
+                
+                const w = 450;
+                const h = 85;
+                const px = (canvas.width - w) / 2;
+                const py = (canvas.height - h) / 2;
+                
+                ctx.beginPath();
+                ctx.roundRect(px, py, w, h, 12);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 18px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(alertMessage, canvas.width / 2, canvas.height / 2 - 10);
+                
+                ctx.fillStyle = tierInfo.color;
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillText(`다음 목표: 더 많은 파지를 모아 한 번 더 중앙 제단으로 돌격하세요!`, canvas.width / 2, canvas.height / 2 + 18);
+
+                ctx.restore();
+            }
+        }
+
+        // 파지 전멸 시 자동 재시작 감지 및 카운트다운 렌더링
+        function handleGameOverState() {
+            if (phageSwarm.length === 0) {
+                if (!isGameOver) {
+                    isGameOver = true;
+                    gameOverTimer = 180; 
+                }
+
+                if (gameOverTimer > 0) {
+                    gameOverTimer--;
+                    
+                    const secondsLeft = Math.ceil(gameOverTimer / 60);
+                    
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 3;
+                    
+                    const panelW = 340;
+                    const panelH = 120;
+                    const px = (canvas.width - panelW) / 2;
+                    const py = (canvas.height - panelH) / 2;
+                    
+                    ctx.beginPath();
+                    ctx.roundRect(px, py, panelW, panelH, 16);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.font = 'bold 18px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('파지가 전부 백혈구에 잡혔습니다!', canvas.width / 2, canvas.height / 2 - 20);
+                    
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = '900 24px sans-serif';
+                    ctx.fillText(`${secondsLeft}초 후 자동 재시작합니다...`, canvas.width / 2, canvas.height / 2 + 20);
+
+                    ctx.restore();
+                } else {
+                    initChamber();
+                }
+            } else {
+                isGameOver = false;
+                gameOverTimer = 0;
+            }
         }
 
         // 무한 공간 연출을 위한 뷰포트 상대 그리드 드로잉 기법
         function drawWorldScrollingGrid() {
             ctx.save();
             
-            // 격자 테두리선
             ctx.strokeStyle = themeMode === 'dark' ? '#1f2937' : '#e2e8f0';
             ctx.lineWidth = 1.5;
 
-            const gridSpacing = 120; // 120px 단위로 눈금 배치
+            const gridSpacing = 120; 
             
-            // 현재 화면 좌측상단의 월드 좌표 연산
             const startX = Math.floor((camera.x - canvas.width / 2) / gridSpacing) * gridSpacing;
             const endX = startX + canvas.width + gridSpacing * 2;
 
             const startY = Math.floor((camera.y - canvas.height / 2) / gridSpacing) * gridSpacing;
             const endY = startY + canvas.height + gridSpacing * 2;
 
-            // 세로선 그리기
             for (let x = startX; x <= endX; x += gridSpacing) {
                 if (x < 0 || x > WORLD_SIZE) continue;
                 let sx = x - camera.x + canvas.width / 2;
@@ -1174,7 +1582,6 @@
                 ctx.stroke();
             }
 
-            // 가로선 그리기
             for (let y = startY; y <= endY; y += gridSpacing) {
                 if (y < 0 || y > WORLD_SIZE) continue;
                 let sy = y - camera.y + canvas.height / 2;
@@ -1184,7 +1591,6 @@
                 ctx.stroke();
             }
 
-            // 거대한 월드 경계 한계선 드로잉 (외벽 탈출 경고선)
             ctx.strokeStyle = themeMode === 'dark' ? '#ef4444' : '#dc2626';
             ctx.lineWidth = 6;
             ctx.setLineDash([10, 10]);
@@ -1201,20 +1607,11 @@
             ctx.restore();
         }
 
-        // --- 13. 부트 시작 시점 및 이벤트 바인딩 안정성 확보 ---
+        // --- 16. 부트 시작 시점 및 이벤트 바인딩 안정성 확보 ---
         window.onload = function() {
             setupCanvasSize();
             initChamber();
             updateUpgradeCardsUI();
-
-            // 안전한 Null-Safe 요소 바인딩
-            const btnSpawn = document.getElementById('btn-spawn-bacteria');
-            if (btnSpawn) {
-                btnSpawn.addEventListener('click', () => {
-                    spawnBacterium();
-                    spawnBacterium();
-                });
-            }
 
             const btnReset = document.getElementById('btn-reset');
             if (btnReset) {
@@ -1223,16 +1620,6 @@
                     initChamber();
                     updateUpgradeCardsUI();
                     triggerModal("무한 배양접시 리셋 완료", "DNA 점수와 모든 유기체 배치가 최초 1마리 사냥 상태로 리빌딩되었습니다.", "info");
-                });
-            }
-
-            const btnEmergency = document.getElementById('btn-emergency-spawn');
-            if (btnEmergency) {
-                btnEmergency.addEventListener('click', () => {
-                    const rx = camera.x + (Math.random() - 0.5) * 150;
-                    const ry = camera.y + (Math.random() - 0.5) * 150;
-                    phageSwarm.push(new MiniaturePhage(rx, ry));
-                    updateDashboardUI();
                 });
             }
 
